@@ -1,9 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500&display=swap');
+
 *{
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
 }
 
+body{
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+}
 .section
 {
     display: flex;
@@ -36,7 +42,12 @@
    align-items: center;
    text-decoration: none;
 }
-
+.label{
+    font-size: 14px;
+}
+.hidden_label{
+    display: none;
+}
 .list_img{
   height: 50px;
   width: 50px;
@@ -53,6 +64,12 @@
     
 }
 
+.selected{
+    background-color: blue;
+    color: white;
+
+}
+
 .img_box img{
     width: 100%;
     height: 95%;
@@ -64,4 +81,5 @@ input.title{
     width: 100%;
     text-align: center;
     border: none;
+    font-size: 17px;
 }
