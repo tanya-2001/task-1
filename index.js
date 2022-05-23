@@ -1,135 +1,88 @@
 console.log("hi");
+import fetch_info, { label_splice } from "./fetch_info.js";
 
 const list = document.querySelector(".list");
-// console.dir(itemlist);
+const img_box_img = document.querySelector(".img_box img");
+const img_box_input = document.querySelector(".title");
+const elemDiv = document.querySelector(".div_input");
+let selected_li;
+let previous_selected_li;
 
-const URL = "./items.json"
-var selected_li;
+fetch_info().then((res) => {
+    selected_li = res;
+    previous_selected_li = res;
+    // console.log(selected_li);
+    selected_li.classList.add("selected"); // By default first item is selected
+    const img_url = selected_li.querySelector(".list_img").getAttribute("src");
+    img_box_img.setAttribute("src", img_url);
+    img_box_input.value = selected_li.lastElementChild.innerText;
+});
 
-const fetch_info = async () => {
-    try {
-        const res = await fetch(URL);
-        // console.log(res);
-        const items = await res.json();
-        // console.log(items);
-        items.forEach(item => {
-            const li = document.createElement("li");
-            li.classList.add("list_item");
-            let label = item.title;
-            if (label.length > 30) {
-                label = label.slice(0, 15) + "..." + label.slice(-15);
-            }
-            li.innerHTML = `<img src="${item.previewImage}" class="list_img" alt="">
-            <p class="label"> ${label} </p>
-            <p class="hidden_label"> ${item.title} </p>`
-            // console.log(label);
-            list.append(li);
-        });
+const remove_previous_set_new_selected_li = () => {
+    previous_selected_li.classList.remove("selected");
+    previous_selected_li = selected_li;
+    selected_li.classList.add("selected");
 
-        const first_item=list.firstElementChild;
-        selected_li=first_item;
+    const img_url = selected_li.querySelector(".list_img").getAttribute("src");
 
-        console.log(first_item,selected_li);
+    img_box_img.setAttribute("src", img_url);
+    img_box_input.value = selected_li.lastElementChild.innerText;
+};
 
-        first_item.classList.add("selected");
-        const img_box_img = document.querySelector(".img_box img");
-        //    console.log(img_box_img);
-        img_box_img.setAttribute("src", items[0].previewImage);
-
-        const img_box_input = document.querySelector(".title");
-        img_box_input.value = items[0].title;
-
-
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-fetch_info();
-
-
+// -------------   when click event occur -----------------------------
 
 list.addEventListener("click", (e) => {
     const target = e.target;
-    
     const items = list.children;
-    for (item of items) {
-
-        item.classList.remove("selected");
-    }
-
-
     if (target.classList.contains("list_item")) {
-         selected_li=target;
-      
+        selected_li = target;
+    } else if (target.classList.contains("list_img")) {
+        selected_li = target.parentNode;
+    } else if (target.classList.contains("label")) {
+        selected_li = target.parentNode;
     }
-    else if (target.classList.contains("list_img")) {
-        selected_li=target.parentNode;
-    }
-    else if (target.classList.contains("label")) {
-        selected_li=target.parentNode;
-    }
-    selected_li.classList.add("selected");
+    remove_previous_set_new_selected_li();
+    // console.dir(img_box_input);
+    autoResize();
+});
 
-    const img_box_img = document.querySelector(".img_box img");
+// -------------------    when arrow up and down key occur   ---------------------
 
-    img_url=selected_li.firstElementChild.getAttribute("src");
-     
-           console.log(img_url);
-        img_box_img.setAttribute("src", img_url);
-
-        const img_box_input = document.querySelector(".title");
-        console.dir(selected_li.lastElementChild,"***");
-        img_box_input.value = selected_li.lastElementChild.innerText;
-})
-
-document.addEventListener("keydown",(e)=>{
+document.body.addEventListener("keydown", (e) => {
     // console.log(e,e.key);
-    const items = list.children;
-   
-    if(e.key=="ArrowUp")
-    {
-        var nextnode=selected_li.previousElementSibling;
-        selected_li=(nextnode!=null)?nextnode:selected_li;
-    }
-    else if(e.key=="ArrowDown")
-    {
+    let items = list.children;
+    // console.log(list);
+    if (e.key == "ArrowUp") {
+        var nextnode = selected_li.previousElementSibling;
+        selected_li = nextnode != null ? nextnode : list.lastElementChild;
+    } else if (e.key == "ArrowDown") {
         // console.log(selected_li);
-        var nextnode=selected_li.nextElementSibling;
-        selected_li=(nextnode!=null)?nextnode:selected_li;
-    }
-    else{
+        var nextnode = selected_li.nextElementSibling;
+        selected_li = nextnode != null ? nextnode : list.firstElementChild;
+    } else {
         return;
     }
-    for (item of items) {
+    remove_previous_set_new_selected_li();
+    autoResize();
+});
 
-        item.classList.remove("selected");
-    }
-    selected_li.classList.add("selected");
+// ---------------      when title is changed   ------------------
 
-    const img_box_img = document.querySelector(".img_box img");
+img_box_input.addEventListener("input", (e) => {
+    // console.log(e.target.value);
+    const value = e.target.value;
+    const label = document.querySelector(".selected .label");
+    const hidden_label = document.querySelector(".selected .hidden_label");
+    hidden_label.textContent = value;
+    label.textContent = label_splice(value, 15, 15);
+});
 
-    img_url=selected_li.firstElementChild.getAttribute("src");
-     
-           console.log(img_url);
-        img_box_img.setAttribute("src", img_url);
+function autoResize() {
+    elemDiv.textContent = img_box_input.value;
+    console.log(img_box_input.clientWidth + "px");
+    const len = Math.ceil(elemDiv.clientWidth / 435);
+    img_box_input.setAttribute("rows", len);
+    // console.log(img_box_input.getAttribute("rows"), "  ", len);
+}
 
-        const img_box_input = document.querySelector(".title");
-        console.dir(selected_li.lastElementChild,"***");
-        img_box_input.value = selected_li.lastElementChild.innerText;
-
-})
-
-const img_box_input = document.querySelector(".title");
-console.log(img_box_input);
-
-img_box_input.addEventListener("input",(e)=>{
-    console.log(e.target.value);
-    const label=document.querySelector(".selected .label")
-    const hidden_label=document.querySelector(".selected .hidden_label")
-    console.log(label);
-    label.textContent=e.target.value;
-    hidden_label.textContent=e.target.value;
-})
-
-
+img_box_input.addEventListener("input", autoResize);
