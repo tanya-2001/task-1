@@ -1,5 +1,5 @@
 console.log("hi");
-import fetch_info, { label_splice } from "./fetch_info.js";
+import fetch_info, { label_slice } from "./fetch_info.js";
 
 const list = document.querySelector(".list");
 const img_box_img = document.querySelector(".img_box img");
@@ -74,7 +74,7 @@ img_box_input.addEventListener("input", (e) => {
     const label = document.querySelector(".selected .label");
     const hidden_label = document.querySelector(".selected .hidden_label");
     hidden_label.textContent = value;
-    label.textContent = label_splice(value, 15, 15);
+    label.textContent = label_slice(value);
 });
 
 
