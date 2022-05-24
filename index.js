@@ -43,7 +43,7 @@ list.addEventListener("click", (e) => {
     }
     remove_previous_set_new_selected_li();
     // console.dir(img_box_input);
-    autoResize();
+    
 });
 
 // -------------------    when arrow up and down key occur   ---------------------
@@ -63,7 +63,7 @@ document.body.addEventListener("keydown", (e) => {
         return;
     }
     remove_previous_set_new_selected_li();
-    autoResize();
+   
 });
 
 // ---------------      when title is changed   ------------------
@@ -77,12 +77,5 @@ img_box_input.addEventListener("input", (e) => {
     label.textContent = label_splice(value, 15, 15);
 });
 
-function autoResize() {
-    elemDiv.textContent = img_box_input.value;
-    console.log(img_box_input.clientWidth + "px");
-    const len = Math.ceil(elemDiv.clientWidth / 435);
-    img_box_input.setAttribute("rows", len);
-    // console.log(img_box_input.getAttribute("rows"), "  ", len);
-}
 
-img_box_input.addEventListener("input", autoResize);
+

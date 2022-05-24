@@ -5,6 +5,10 @@
     box-sizing: border-box;
 }
 
+html{
+    font-size: 10px;
+}
+
 body {
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
@@ -19,19 +23,21 @@ body {
 }
 
 .container {
-    width: 900px;
-    height: 80%;
-    display: flex;
-    justify-content: space-between;
+    max-width: 800px;
+    width: 90%;
+    height: 80vh;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 50px;
+    
 }
+
+
 /* --------           left section             ----------- */
 
-.list {
-    width: 300px;
-}
 
 .list .list_item {
-    height: 65px;
+    height: 6.5rem;
     border-radius: 3px;
     display: flex;
     align-items: center;
@@ -40,7 +46,11 @@ body {
 }
 
 .label {
-    font-size: 14px;
+    font-size: 1.4rem;
+    height: 1.7rem;
+    overflow: hidden;
+    width: 220px;
+    word-break: break-all;
 }
 
 .hidden_label {
@@ -48,28 +58,29 @@ body {
 }
 
 .list_img {
-    height: 50px;
-    width: 50px;
+    height: 5rem;
+    width: 5rem;
     border-radius: 3px;
     object-fit: cover;
-    margin: 0px 6px;
+    margin: 0px 0.6rem;
 }
 
 .selected {
     background-color: blue;
     color: white;
 }
+
+
 /* ---------            right section ------- */
 
 .img_box {
-    width: 570px;
-    height: 100%
+    height: 80vh;
 }
 
 .img_box img {
     width: 100%;
     height: 95%;
-    margin-bottom: -3px;
+    margin-bottom: -0.3rem;
     border-radius: 3px;
     object-fit: cover;
     box-shadow: 0px -1px 4px 0px black;
@@ -79,18 +90,27 @@ body {
     width: 100%;
     text-align: center;
     border: none;
-    font-size: 16px;
+    font-size: 1.8rem;
     resize: none;
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
-    word-break: break-all;
 }
 
 .title:focus {
     outline: none;
 }
 
-.div_input {
-    visibility: hidden;
-    position: fixed;
+
+
+@media (max-width:650px) {
+
+    .container {
+       
+        grid-template-columns: 300px ;
+        justify-content: center;
+        
+    }
+    .img_box {
+        height: 40vh;
+    }
 }
