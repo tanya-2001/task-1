@@ -5,6 +5,7 @@ const list = document.querySelector(".list");
 const img_box_img = document.querySelector(".img_box img");
 const img_box_input = document.querySelector(".title");
 const elemDiv = document.querySelector(".div_input");
+const button_toggle=document.querySelector(".toggle_mode")
 let selected_li;
 let previous_selected_li;
 
@@ -79,3 +80,10 @@ img_box_input.addEventListener("input", (e) => {
 
 
 
+// -----------------------     switching mode ---------------------------
+
+button_toggle.addEventListener("click",()=>{
+    document.body.classList.toggle("dark_mode");
+    img_box_input.classList.toggle("dark_mode");
+    button_toggle.classList.toggle("dark_mode");
+})
