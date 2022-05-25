@@ -8,10 +8,11 @@ export function label_slice(label) {
     // getting overflow after 40 characters  // to reduce tm complexity
     label = label.slice(0, start_cnt) + "..." + label.slice(-start_cnt);
   }
-  const div_slice = document.querySelector(".div_slice");
+  const div_slice = document.querySelector("#div_slice");
   div_slice.innerHTML = label;
   let len = div_slice.offsetWidth; // no. of pixels;
   while (len > 220) {
+    console.log(len);
     start_cnt--;
     label = label.slice(0, start_cnt) + "..." + label.slice(-start_cnt);
     div_slice.innerHTML = label;
